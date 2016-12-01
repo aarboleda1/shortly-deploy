@@ -78,7 +78,7 @@ module.exports = function(grunt) {
     },
 
     shell: {
-      target: {
+      pushToLiveRemote: {
         command: 'git push live master'
       }
     },
@@ -121,7 +121,7 @@ module.exports = function(grunt) {
     if (grunt.option('prod')) {
       grunt.task.run([ 'test' ]);
       grunt.task.run([ 'lint' ]);
-      grunt.task.run([ 'shell' ]);
+      grunt.task.run([ 'shell:pushToLiveRemote' ]);
     } else {
       grunt.task.run([ 'test' ]);
       grunt.task.run([ 'eslint' ]);
