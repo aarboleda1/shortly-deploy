@@ -106,11 +106,12 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
+  grunt.registerTask('lint', [
+    'eslint'
+  ]);
 
   grunt.registerTask('build', [
-    'test',
     'clean',
-    'eslint',
     'concat',
     'uglify',
     'cssmin'
@@ -118,14 +119,20 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', function(n) {
     if (grunt.option('prod')) {
-      grunt.task.run([ 'build' ]);
+      grunt.task.run([ 'test' ]);
+      grunt.task.run([ 'lint' ]);
       grunt.task.run([ 'shell' ]);
     } else {
       grunt.task.run([ 'test' ]);
-      grunt.task.run([ 'clean' ]);
       grunt.task.run([ 'eslint' ]);
+      grunt.task.run([ 'clean' ]);
       grunt.task.run([ 'server-dev' ]);
     }
+  });
+
+  grunt.registerTask('server-prod', function (target) {
+    grunt.task.run([ 'build' ]);
+    grunt.task.run([ 'nodemon', 'watch' ]);
   });
 
 };
